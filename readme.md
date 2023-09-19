@@ -8,6 +8,7 @@ This guide provides instructions on how to use the provided scripts to create an
 2. Make sure you've authenticated with GCP: `gcloud auth login`
 3. Set your GCP project: `gcloud config set project [PROJECT_ID]`
 4. Ensure that the Google Compute Engine API is enabled for your project.
+5. The "base-image" is setup on your Google Cloud Console. 
 
 ## Creating Instances
 
@@ -18,14 +19,14 @@ This script allows you to create multiple virtual machine instances on GCP.
 #### Usage:
 
 1. Make the script executable:
-\```bash
+```bash
 chmod +x create_instances.sh
-\```
+```
 
 2. Run the script:
-\```bash
+```bash
 ./create_instances.sh
-\```
+```
 
 3. Follow the on-screen prompts. You'll be asked for:
    - Number of instances you'd like to create.
@@ -36,11 +37,11 @@ chmod +x create_instances.sh
 
 A CSV file with the following format:
 
-\```
+```
 Instance Name,Internal IP,External IP
 benchmark-instance-1,10.128.0.2,34.86.145.210
 ...
-\```
+```
 
 ## Deleting Instances
 
@@ -51,18 +52,20 @@ This script allows you to delete virtual machine instances on GCP based on a giv
 #### Usage:
 
 1. Make the script executable:
-\```bash
+```bash
 chmod +x delete_instances.sh
-\```
+```
 
 2. Run the script with the CSV file as an argument:
-\```bash
+```bash
 ./delete_instances.sh instances_ip.csv
-\```
+```
 
 Replace `instances_ip.csv` with the name of your CSV file if it's different.
 
 ### Note:
+
+Assumes the image "base-image" is available. If not, please create the base image first. 
 
 The provided CSV file should have the instance names you want to delete in the format produced by `create_instances.sh`.
 
