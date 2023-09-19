@@ -23,3 +23,13 @@ while IFS=, read -r instance_name external_ip; do
 done < "$INPUT_FILE"
 
 echo "All instances from $INPUT_FILE have been deleted."
+
+# Offer to delete the CSV output file upon successful deletion
+read -p "Do you want to delete the CSV file $INPUT_FILE? (y/N): " DELETE_CSV
+
+if [[ "$DELETE_CSV" == "y" || "$DELETE_CSV" == "Y" ]]; then
+    rm "$INPUT_FILE"
+    echo "$INPUT_FILE has been deleted."
+else
+    echo "Kept $INPUT_FILE."
+fi

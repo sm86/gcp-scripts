@@ -50,7 +50,7 @@ for ((i=1; i<=TOTAL_INSTANCES; i++)); do
     echo "Creating VM Instance: $INSTANCE_NAME"
     
     # Create the instance
-    gcloud compute instances create $INSTANCE_NAME --source-machine-image=$MACHINE_IMAGE_NAME --machine-type=e2-standard-4
+    gcloud compute instances create $INSTANCE_NAME --source-machine-image=$MACHINE_IMAGE_NAME --machine-type=e2-standard-4 --provisioning-model=STANDARD 
     
     # Retrieve its internal IP
     INSTANCE_INTERNAL_IP=$(gcloud compute instances describe $INSTANCE_NAME --format='get(networkInterfaces[0].networkIP)')
