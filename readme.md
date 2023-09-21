@@ -8,7 +8,13 @@ This guide provides instructions on how to use the provided scripts to create an
 2. Make sure you've authenticated with GCP: `gcloud auth login`
 3. Set your GCP project: `gcloud config set project [PROJECT_ID]`
 4. Ensure that the Google Compute Engine API is enabled for your project.
-5. The "base-image" is setup on your Google Cloud Console. 
+5. Set the GCP region and zone. 
+```
+gcloud config set compute/region YOUR_REGION
+
+gcloud config set compute/zone YOUR_ZONE
+```
+6. The "base-image" is setup on your Google Cloud Console. 
 
 ## Creating Instances
 

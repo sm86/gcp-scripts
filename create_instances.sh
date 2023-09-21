@@ -35,6 +35,9 @@ if [[ -f "$OUTPUT_FILE" ]]; then
     fi
 fi
 
+# Ask the user if they want to set up SSH access
+read -p "Do you want to set up SSH access for the instances? (y/N): " response
+
 # Create or overwrite the CSV file with headers
 echo "Instance Name,Internal IP,External IP" > $OUTPUT_FILE
 
@@ -63,3 +66,14 @@ for ((i=1; i<=TOTAL_INSTANCES; i++)); do
 done
 
 echo "CSV file created at $OUTPUT_FILE"
+
+if [[ "$response" == "y" || "$response" == "Y" ]]; then
+    # Skip the header line and read the file line by line
+    echo "Setting up SSH access for the instances..."
+    tail -n +2 "$OUTPUT_FILE" | while IFS=, read -r instance_name internal_ip external_ip; do
+        # Establish SSH connection
+        gcloud compute ssh "$instance_name" --command="exit"
+    done
+else
+    echo "SSH setup skipped."
+fi
