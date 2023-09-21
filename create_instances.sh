@@ -68,10 +68,16 @@ done
 echo "CSV file created at $OUTPUT_FILE"
 
 if [[ "$response" == "y" || "$response" == "Y" ]]; then
-    # Skip the header line and read the file line by line
     echo "Setting up SSH access for the instances..."
-    tail -n +2 "$OUTPUT_FILE" | while IFS=, read -r instance_name internal_ip external_ip; do
+    
+    # Skip the header line
+    mapfile -t lines < <(tail -n +2 "$OUTPUT_FILE")
+    
+    for line in "${lines[@]}"; do
+        IFS=, read -r instance_name internal_ip external_ip <<< "$line"
+        
         # Establish SSH connection
+        echo "Setting up SSH access for $instance_name..."
         gcloud compute ssh "$instance_name" --command="exit"
     done
 else
