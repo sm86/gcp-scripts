@@ -1,6 +1,7 @@
 #!/bin/bash
 
-MACHINE_IMAGE_NAME="base-image"
+# MACHINE_IMAGE_NAME="base-image"
+IMAGE_NAME="projects/consensus-benchmark/global/images/hotstuff-base"
 
 # Prompt the user for the number of instances
 read -p "Enter the number of instances you'd like to create (default is 4): " TOTAL_INSTANCES
@@ -53,8 +54,9 @@ for ((i=1; i<=TOTAL_INSTANCES; i++)); do
     echo "Creating VM Instance: $INSTANCE_NAME"
     
     # Create the instance
-    gcloud compute instances create $INSTANCE_NAME --source-machine-image=$MACHINE_IMAGE_NAME --machine-type=e2-standard-4 --provisioning-model=STANDARD 
-    
+    # gcloud compute instances create $INSTANCE_NAME --source-machine-image=$MACHINE_IMAGE_NAME --machine-type=e2-standard-4 --provisioning-model=STANDARD 
+    gcloud compute instances create $INSTANCE_NAME --image=$IMAGE_NAME --machine-type=e2-standard-4 --provisioning-model=STANDARD 
+
     # Retrieve its internal IP
     INSTANCE_INTERNAL_IP=$(gcloud compute instances describe $INSTANCE_NAME --format='get(networkInterfaces[0].networkIP)')
     
@@ -63,6 +65,9 @@ for ((i=1; i<=TOTAL_INSTANCES; i++)); do
 
     # Append to the CSV
     echo "$INSTANCE_NAME,$INSTANCE_INTERNAL_IP,$INSTANCE_EXTERNAL_IP" >> $OUTPUT_FILE
+    
+    sleep 10
+
 done
 
 echo "CSV file created at $OUTPUT_FILE"
